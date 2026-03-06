@@ -32,7 +32,11 @@ Why 32 x 32 x 32 and not more? Well, couple of reasons. Literally out of DX9 mem
 That's really it, I plan to have a release up, but it's really a beta binary. Some features are disabled / unresolved, I'm just ready to take a break from it. There's also rare thread conditions that case the display to stop updating on ui interactions. It's probably very fixable, but as I said I need a break. I will also be publishing a video detailing all of this as well. If you want to run it yourself and have any trouble, feel free to reach out to me on discord, I'm always open to talk.
 
 **References**
+
 Marching cubes tables coutesy of https://github.com/nihaljn/marching-cubes/
+
 You can find out more about lenia here https://chakazul.github.io/lenia.html
+
 You can find out more about flow lenia here https://sites.google.com/view/flowlenia/
+
 I want to give a thank you to everyone that helped me out while streaming my development of this live, especially @SpeechH4CK for the help with alignment and simd. And thanks to everyone that gave me a good laugh along the way as well.
