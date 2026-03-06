@@ -1,0 +1,82 @@
+matrix ViewMatrix;
+//matrix ViewProjMatrix;
+vector ViewPosition;
+vector AmbientMtrl;
+vector DiffuseMtrl;
+float uTime;
+
+//
+// Global variables used to hold the ambient light intensity (ambient
+// light the light source emits) and the diffuse light
+// intensity (diffuse light the light source emits). These
+// variables are initialized here in the shader.
+//
+vector DiffuseLightIntensity = {0.5f, 0.5f, 0.5f, 1.0f};
+vector AmbientLightIntensity = {0.01f, 0.01f, 0.05f, 1.0f};
+static vector LightDirection = {-0.57f, 0.57f, -0.57f, 0.0f};
+//
+// Input and Output structures.
+//
+
+
+struct PS_INPUT
+{
+	vector position : TEXCOORD0;
+	vector normal : TEXCOORD1;
+	vector diffuse : COLOR;
+};
+struct PS_OUTPUT
+{
+
+	vector diffuse : COLOR;
+};
+
+vector light_dir[4];
+vector light_color[4];
+
+
+
+//
+// Main
+//
+PS_OUTPUT Main(PS_INPUT input)
+{
+	// zero out all members of the output instance.
+	
+	PS_OUTPUT output = (PS_OUTPUT)0;
+
+	vector normal = input.normal;
+	normal.w = 0.0f;
+	normal = normalize(normal);
+	LightDirection = LightDirection;
+
+	normal = mul(normal, ViewMatrix);
+	
+
+	float s = dot(LightDirection, normal);
+	
+	
+	if( s < 0.0f ) s = 0.0f;
+	
+	
+	vector c = vector(0,0,0,0);
+	for (int i = 0; i < 4; i++)
+	{
+		
+		vector view_dir = normalize(ViewPosition - input.position);
+		vector half = normalize(view_dir + light_dir[i]);
+		vector color = input.diffuse;
+		float spec = pow(max(dot(normal, half), 0), 0.5);
+		
+		vector specular = light_color[i] * spec;
+		c += (AmbientLightIntensity + light_color[i] * s * DiffuseLightIntensity + specular) * color;
+
+	}
+	
+
+	c.w = 1.0;
+	output.diffuse = vector(0.9, 0.85, 0.75, 1.0) * c;
+	
+	//output.diffuse = input.diffuse * AmbientLightIntensity;
+	return output;
+}

@@ -1,0 +1,26 @@
+matrix ViewProjMatrix;
+
+struct VS_INPUT
+{
+	vector position : POSITION;
+	vector normal : NORMAL;
+	vector diffuse : COLOR;
+};
+struct VS_OUTPUT
+{
+	vector position : POSITION;
+	vector normal : TEXCOORD1;
+	vector diffuse : COLOR;
+};
+
+VS_OUTPUT Main(VS_INPUT input)
+{
+	VS_OUTPUT output = (VS_OUTPUT)0;
+	//output.position = vector(0,0,0,0);
+	output.position = mul(input.position, ViewProjMatrix);
+	vector normal = input.normal;
+	normal.w = 0;
+	output.normal = normal;
+	output.diffuse = input.diffuse;
+	return output;
+}
